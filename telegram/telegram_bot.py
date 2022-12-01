@@ -37,14 +37,6 @@ class TelegramBot(Config):
         self.client = TelegramClient(f'telegram\\sessions\\{self.phone}', self.api_id, self.api_hash)
         self.authorization()
 
-        self.app = Client(
-            name=self.bot_name, 
-            api_id=self.api_id, 
-            api_hash=self.api_hash,
-            bot_token=self.bot_token,
-            password=self.telegram_password
-            )
-        
 
     def authorization(self) -> None:
         '''Conexão e autorização'''
@@ -192,18 +184,26 @@ class TelegramBot(Config):
     def remove_user(self, chat_id:Union[str, int], user_id:Union[str, int], time_remove:bool, days:int=0):
         ''' Id do grupo -1001475740997 é adicionado -100 na frente do id, o id do usuario poder ser o username'''
         try:
-            self.app.start()
+            #Connection with Pyrogram
+            app = Client(
+                name=self.bot_name, 
+                api_id=self.api_id, 
+                api_hash=self.api_hash,
+                bot_token=self.bot_token,
+                password=self.telegram_password
+            )
+            app.start()
 
             data = datetime.now() + timedelta(days=days)
 
             if time_remove:
                 # Banir membro do chat e desbanir automaticamente após o tempo informadp em (data)
-                remove = self.app.ban_chat_member(chat_id=chat_id, user_id=user_id, until_date=data)
+                remove = app.ban_chat_member(chat_id=chat_id, user_id=user_id, until_date=data)
                 logger.success(f'usuário: {user_id} agendado para ser banido em: {data}!')
 
             else:
                 # Banir membro do chat para sempre
-                remove = self.app.ban_chat_member(chat_id=chat_id, user_id=user_id)
+                remove = app.ban_chat_member(chat_id=chat_id, user_id=user_id)
                 logger.success(f'usuário: {user_id} banido com sucesso!')
 
             return remove

@@ -19,6 +19,8 @@ import os
 import asyncio
 from typing import  Union
 
+sys.path.append(os.path.join(os.getcwd()))
+
 from settings.telegram_config import Config
 
 
@@ -32,7 +34,7 @@ class TelegramBot(Config):
     def __init__(self) -> None:
         super().__init__()
 
-        self.client = TelegramClient(f'sessions\\{self.phone}', self.api_id, self.api_hash)
+        self.client = TelegramClient(f'telegram\\sessions\\{self.phone}', self.api_id, self.api_hash)
         self.authorization()
 
         self.app = Client(

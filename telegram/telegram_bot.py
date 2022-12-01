@@ -35,19 +35,19 @@ class TelegramBot(Config):
         super().__init__()
 
         self.client = TelegramClient(f'telegram\\sessions\\{self.phone}', self.api_id, self.api_hash)
-        self.authorization()
+        #self.authorization()
 
 
-    def authorization(self) -> None:
+    async def authorization(self):
         '''Conexão e autorização'''
-        self.client.connect()
-        if not self.client.is_user_authorized():
+        await self.client.connect()
+        if not await self.client.is_user_authorized():
             try:
-                self.client.send_code_request(self.phone)
-                self.client.sign_in(self.phone, input('Digite o código: '))
+                await self.client.send_code_request(self.phone)
+                await self.client.sign_in(self.phone, input('Digite o código: '))
 
             except SessionPasswordNeededError:
-                self.client.sign_in(password= self.password)
+                await self.client.sign_in(password= self.telegram_password)
 
             except PasswordHashInvalidError:
                 logger.error('Senha incorreta')
@@ -70,7 +70,7 @@ class TelegramBot(Config):
                 raise Exception(f'Error {e}')
                 
 
-    def _all_groups(self):
+    async def _all_groups(self):
         ''' (grups_permitted) Buscar apenas para grupos permitidos ou para buscar todos os grupos'''
 
         chats = []
@@ -79,7 +79,7 @@ class TelegramBot(Config):
         groups=[]
         all_groups = []
 
-        result = self.client(GetDialogsRequest(
+        result = await self.client(GetDialogsRequest(
                     offset_date=last_date,
                     offset_id=0,
                     offset_peer=InputPeerEmpty(),
@@ -99,9 +99,9 @@ class TelegramBot(Config):
         return groups
 
     
-    def select_group(self, one_group:bool = False):
+    async def select_group(self, one_group:bool = False):
         '''Listar todos os grupos ou um grupo em especifico'''
-        groups_all = self._all_groups()
+        groups_all = await self._all_groups()
 
         i = 0
         for g in groups_all:
@@ -234,10 +234,3 @@ class TelegramBot(Config):
         else:
             print(f"Nenhuma conta excluída encontrada em: {group.title}")
 
-
-if __name__ == '__main__':
-    bot = TelegramBot()
-    
-    #bot._all_partifipants(save_users=True)
-    #rr = bot.remove_user()
-    bot.remove_user(chat_id=-1001475740997, user_id='zAngryGhost', time_remove=True, days=1)

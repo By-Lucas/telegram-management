@@ -1,5 +1,4 @@
 from telethon.sync import TelegramClient
-from telethon import functions
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty, UserStatusRecently, ChatBannedRights, InputPeerUser
@@ -18,10 +17,9 @@ import sys
 import json
 import os
 import asyncio
-from typing import Optional, Literal, Union
+from typing import  Union
 
-
-from models.config import Config
+from settings.telegram_config import Config
 
 
 logger.add("logs/info.log",  serialize=False)
@@ -38,15 +36,13 @@ class TelegramBot(Config):
         self.authorization()
 
         self.app = Client(
-            name=self.name, 
+            name=self.bot_name, 
             api_id=self.api_id, 
             api_hash=self.api_hash,
             bot_token=self.bot_token,
-            password=self.password
+            password=self.telegram_password
             )
         
-
-
 
     def authorization(self) -> None:
         '''Conexão e autorização'''
@@ -79,7 +75,6 @@ class TelegramBot(Config):
                 logger.error(f'Error {e}')
                 raise Exception(f'Error {e}')
                 
-
 
     def _all_groups(self):
         ''' (grups_permitted) Buscar apenas para grupos permitidos ou para buscar todos os grupos'''
@@ -190,10 +185,6 @@ class TelegramBot(Config):
 
         except Exception as e:
             logger.error(f'Erro: {e}')
-    
-
-    def add_user(self, type_group:str, user:str):
-        pass
     
 
     def remove_user(self, chat_id:Union[str, int], user_id:Union[str, int], time_remove:bool, days:int=0):

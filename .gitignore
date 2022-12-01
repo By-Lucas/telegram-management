@@ -3,3 +3,4 @@ venv
 *.pyc
 .env
 *.session
+__pycache__

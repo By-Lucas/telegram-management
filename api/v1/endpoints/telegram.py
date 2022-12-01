@@ -10,7 +10,9 @@ from sqlalchemy.exc import IntegrityError
 
 from core.send_email import SendEmail
 from telegram.telegram_bot import TelegramBot
-import asyncio
+
+from typing import Optional, Union
+import json
 
 
 
@@ -19,22 +21,43 @@ send_email = SendEmail()
 
 telegram = TelegramBot()
 
+
 class TelegramApi:
    
-# GET usuario Logado
+    # GET all groups telegram
     @router.get('/', status_code=status.HTTP_200_OK)
     async def telegram_groups():
+        try:
+            authorization =  await telegram.authorization()
+            data = dict()
+            groups_list = []
+            
+            groups = await telegram._all_groups()
+            n = 0
+
+            for g in groups:
+                data['name'] = g.title
+                data['id'] = g.id
+                data['access_hash'] = g.access_hash
+                data['position'] = n
+                groups_list.append(data.copy())
+
+                n += 1
+
+            return groups_list
+        
+        except Exception as e:
+            raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+    # GET group telegram
+    @router.get('/{user_id}', status_code=status.HTTP_200_OK)
+    async def telegram_group(user_id:int):
         authorization =  await telegram.authorization()
 
         data = dict()
-        groups_list = []
+        group_info = []
         
-        groups = await telegram._all_groups()
-        for g in groups:
-            data['name'] = g.title
-            data['id'] = g.id
-            data['access_hash'] = g.access_hash
-            groups_list.append(data.copy())
-
-
-        return groups_list
+        datas = await telegram.select_group(one_group= True, group= user_id)
+        
+        return json.dumps(datas.to_json())

@@ -99,19 +99,20 @@ class TelegramBot(Config):
         return groups
 
     
-    async def select_group(self, one_group:bool = False):
+    async def select_group(self, one_group:bool, group:int):
         '''Listar todos os grupos ou um grupo em especifico'''
+
         groups_all = await self._all_groups()
 
         i = 0
         for g in groups_all:
             groups_ = f'{str(i)}- {g.title} - {g.id}'
-            print(groups_)
+            #print(groups_)
             i+=1
 
         if one_group:
-            g_index = input("Digite o número do grupo: ")
-            groups_all=groups_all[int(g_index)]
+            groups_all=groups_all[group]
+            
             return groups_all
         
         else:
@@ -135,7 +136,7 @@ class TelegramBot(Config):
 
     def _all_partifipants(self, recents_users:bool = True, save_users:bool = False):
         '''Listar todos os participantes'''
-        target_group = self.select_group(True)
+        target_group = self.select_group(one_group= True)
 
         all_participants = []
         all_participants = self.client.get_participants(target_group)
@@ -216,7 +217,7 @@ class TelegramBot(Config):
         '''Remover do grupos os usuarios desativado'''
         import datetime
 
-        group = self.select_group(True)
+        group = self.select_group(one_group= True)
 
         deleted_accounts = 0
         for user in self.client.iter_participants(group):

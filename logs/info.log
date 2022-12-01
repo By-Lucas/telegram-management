@@ -1,1 +1,5 @@
 2022-11-30 09:41:32.098 | ERROR    | __main__:authorization:50 - Você tentou fazer login muitas vezes (causado por NoneType)
+2022-11-30 22:10:38.342 | SUCCESS  | __main__:remove_user:213 - usuário: zAngryGhost removido com sucesso!
+2022-11-30 22:11:32.079 | SUCCESS  | __main__:remove_user:208 - usuário: zAngryGhost agendado para ser banido em: 2022-12-01 22:11:31.478260!
+2022-11-30 22:13:09.213 | SUCCESS  | __main__:remove_user:208 - usuário: zAngryGhost agendado para ser banido em: 2022-12-01 22:13:08.711738!
+2022-11-30 22:14:52.197 | SUCCESS  | __main__:remove_user:208 - usuário: zAngryGhost agendado para ser banido em: 2022-12-01 22:14:51.681013!

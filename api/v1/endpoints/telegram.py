@@ -12,7 +12,6 @@ from core.send_email import SendEmail
 from telegram.telegram_bot import TelegramBot
 from telethon.tl.types import UserStatusRecently, ChatPhoto
 
-
 from typing import Optional, Union
 import json
 import base64
@@ -20,13 +19,12 @@ import base64
 
 router = APIRouter()
 send_email = SendEmail()
-
 telegram = TelegramBot()
 
 
 class TelegramApi:
    
-    # GET all groups telegram
+    # GET all chats telegram
     @router.get('/all-chats', status_code=status.HTTP_200_OK)
     async def telegram_groups():
         try:
@@ -52,12 +50,11 @@ class TelegramApi:
             raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-    # GET group telegram
+    # GET chat telegram
     @router.get('/{chat_id}', status_code=status.HTTP_200_OK)
     async def telegram_group(chat_id:int):
         
         authorization =  await telegram.authorization()
-
 
         group = await telegram.select_group(one_group= True, group= chat_id)
         data = group.__dict__
@@ -85,7 +82,6 @@ class TelegramApi:
         
         users = []
 
-
         for user in all_participants:
             data = user.__dict__
             
@@ -109,6 +105,5 @@ class TelegramApi:
                     }
             
             users.append(data.copy())
-
         
         return users

@@ -10,10 +10,12 @@ from sqlalchemy.exc import IntegrityError
 
 from core.send_email import SendEmail
 from telegram.telegram_bot import TelegramBot
+from telethon.tl.types import UserStatusRecently, ChatPhoto
+
 
 from typing import Optional, Union
 import json
-
+import base64
 
 
 router = APIRouter()
@@ -25,7 +27,7 @@ telegram = TelegramBot()
 class TelegramApi:
    
     # GET all groups telegram
-    @router.get('/', status_code=status.HTTP_200_OK)
+    @router.get('/all-chats', status_code=status.HTTP_200_OK)
     async def telegram_groups():
         try:
             authorization =  await telegram.authorization()
@@ -51,13 +53,62 @@ class TelegramApi:
 
 
     # GET group telegram
-    @router.get('/{user_id}', status_code=status.HTTP_200_OK)
-    async def telegram_group(user_id:int):
+    @router.get('/{chat_id}', status_code=status.HTTP_200_OK)
+    async def telegram_group(chat_id:int):
+        
         authorization =  await telegram.authorization()
 
-        data = dict()
-        group_info = []
+
+        group = await telegram.select_group(one_group= True, group= chat_id)
+        data = group.__dict__
+
+        if data['photo'] is not None:
+            photo_base64 = base64.b64encode(data['photo'].stripped_thumb).decode()
+
+            data['photo'] = {
+                'photo_id': data['photo'].photo_id,
+                'photo_b64encode': photo_base64
+            }
         
-        datas = await telegram.select_group(one_group= True, group= user_id)
+        return data
+
+
+    # GET all users
+    @router.get('/participants/{chat_id}', status_code=status.HTTP_200_OK)
+    async def telegram_participants(chat_id:int):
+
+        authorization =  await telegram.authorization()
+  
+        group = await telegram.select_group(one_group= True, group= chat_id)
+
+        all_participants = await telegram._all_partifipants(recents_users=True, save_users=False, group=group)
         
-        return json.dumps(datas.to_json())
+        users = []
+
+
+        for user in all_participants:
+            data = user.__dict__
+            
+            if data['photo'] is not None:
+                photo_base64 = base64.b64encode(data['photo'].stripped_thumb).decode()
+                data['photo'] = {
+                    'photo_id': data['photo'].photo_id,
+                    'photo_b64encode': photo_base64
+                }
+
+            if data['emoji_status'] is not None:
+                data['emoji_status'] = data['emoji_status'].document_id
+
+            if  data['status'] is not None:
+                data['status'] = 'UserStatusRecently()'
+            
+            if data['participant'] is not None:
+                data['participant'] = {
+                        'user_id': data['participant'].user_id,
+                        'date': json.dumps(data['participant'].date, default=str)
+                    }
+            
+            users.append(data.copy())
+
+        
+        return users

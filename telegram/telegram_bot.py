@@ -134,17 +134,17 @@ class TelegramBot(Config):
         return json_users
 
 
-    def _all_partifipants(self, recents_users:bool = True, save_users:bool = False):
+    async def _all_partifipants(self, recents_users:bool , save_users:bool, group):
         '''Listar todos os participantes'''
-        target_group = self.select_group(one_group= True)
+        #target_group = self.select_group(one_group= True)
 
         all_participants = []
-        all_participants = self.client.get_participants(target_group)
+        all_participants = await self.client.get_participants(group)
         
         n=0
         users_active = []
 
-        with open(os.path.join(os.getcwd(), f'captured_user_json/{target_group.title}.json'), 'w+', encoding='utf-8') as f:
+        with open(os.path.join(os.getcwd(), f'captured_user_json/{group.title}.json'), 'w+', encoding='utf-8') as f:
             for user in all_participants:
                 accept = True
 
@@ -153,7 +153,7 @@ class TelegramBot(Config):
                         accept = False
 
                     if accept:
-                        print(n, user.username,' - ', user.id )
+                        #print(n, user.username,' - ', user.id )
                         users_active.append(user)
                         n+=1
 

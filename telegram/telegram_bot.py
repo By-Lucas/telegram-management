@@ -38,6 +38,26 @@ class TelegramBot(Config):
         #self.authorization()
 
 
+        #Connection with Pyrogram
+        self.app = Client(
+            name=self.bot_name, 
+            api_id=self.api_id, 
+            api_hash=self.api_hash,
+            bot_token=self.bot_token,
+            password=self.telegram_password
+        )
+
+
+    async def start(self):
+        try:
+            start = await self.app.start()
+            logger.info('Pyrogram iniciado')
+
+        except ConnectionError:
+            self.app.start()
+            logger.info('Pyrogram parado')
+
+
     async def authorization(self):
         '''Conexão e autorização'''
         await self.client.connect()
@@ -172,59 +192,66 @@ class TelegramBot(Config):
         return users_active
 
     
-    def send_message_user(self, user, message):
+    async def send_message_user(self, user, message):
         '''Enviar menságem para o usuário'''
         try:
             receiver = InputPeerUser(user.id, user.access_hash) 
-            self.client.send_message(receiver, message, parse_mode='html') 
+            await self.client.send_message(receiver, message, parse_mode='html') 
 
         except Exception as e:
             logger.error(f'Erro: {e}')
     
 
-    def remove_user(self, chat_id:Union[str, int], user_id:Union[str, int], time_remove:bool, days:int=0):
+    async def remove_user(self, chat_id:int, user_id:Union[str, int], time_remove:bool, days:int):
         ''' Id do grupo -1001475740997 é adicionado -100 na frente do id, o id do usuario poder ser o username'''
-        try:
-            #Connection with Pyrogram
-            app = Client(
-                name=self.bot_name, 
-                api_id=self.api_id, 
-                api_hash=self.api_hash,
-                bot_token=self.bot_token,
-                password=self.telegram_password
-            )
-            app.start()
 
+        if not isinstance(chat_id, int):
+                logger.error('O campo chat_id deve ser numéros inteiros, EX: -1001495540997')
+
+        if time_remove:
+            if not isinstance(days, int) or days == ' ':
+                logger.error('O campo days deve ser numéros inteiros e não pode ser um campo vazio')
+        else:
+            days = 0
+
+        try:
+            await self.start()
+        
             data = datetime.now() + timedelta(days=days)
+            result = dict()
 
             if time_remove:
                 # Banir membro do chat e desbanir automaticamente após o tempo informadp em (data)
-                remove = app.ban_chat_member(chat_id=chat_id, user_id=user_id, until_date=data)
-                logger.success(f'usuário: {user_id} agendado para ser banido em: {data}!')
+                remove =  await self.app.ban_chat_member(chat_id=chat_id, user_id=user_id, until_date=data)
+                result['message'] = f'Usuário: {user_id} agendado para ser banido em: {data}!'
 
             else:
                 # Banir membro do chat para sempre
-                remove = app.ban_chat_member(chat_id=chat_id, user_id=user_id)
-                logger.success(f'usuário: {user_id} banido com sucesso!')
-
-            return remove
+                remove =  await self.app.ban_chat_member(chat_id=chat_id, user_id=user_id)
+                result['message'] = f'Usuário: {user_id} banido com sucesso!'
+            
+            result['banned'] = remove
+            logger.success(result['message'])
+            
+            return result
 
         except Exception as e:
-            logger.error(f'Error: {e}')
-            
+            logger.error(f'Ocorreu o seguinte erro: {e}')
+            raise Exception(e)
 
-    def clear_chat(self):
+        
+    async def clear_chat(self):
         '''Remover do grupos os usuarios desativado'''
         import datetime
 
-        group = self.select_group(one_group= True)
+        group = await self.select_group(one_group= True)
 
         deleted_accounts = 0
         for user in self.client.iter_participants(group):
             if user.deleted:
                 try:
                     deleted_accounts += 1
-                    self.client(EditBannedRequest(group, user, ChatBannedRights(
+                    await self.client(EditBannedRequest(group, user, ChatBannedRights(
                     until_date=datetime.timedelta(minutes=1),
                     view_messages=True
                     )))

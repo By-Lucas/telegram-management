@@ -1,9 +1,37 @@
-2022-11-30 09:41:32.098 | ERROR    | __main__:authorization:50 - Você tentou fazer login muitas vezes (causado por NoneType)
-2022-11-30 22:10:38.342 | SUCCESS  | __main__:remove_user:213 - usuário: zAngryGhost removido com sucesso!
-2022-11-30 22:11:32.079 | SUCCESS  | __main__:remove_user:208 - usuário: zAngryGhost agendado para ser banido em: 2022-12-01 22:11:31.478260!
-2022-11-30 22:13:09.213 | SUCCESS  | __main__:remove_user:208 - usuário: zAngryGhost agendado para ser banido em: 2022-12-01 22:13:08.711738!
-2022-11-30 22:14:52.197 | SUCCESS  | __main__:remove_user:208 - usuário: zAngryGhost agendado para ser banido em: 2022-12-01 22:14:51.681013!
-2022-12-01 13:30:26.452 | SUCCESS  | __main__:remove_user:209 - usuário: zAngryGhost agendado para ser banido em: 2022-12-02 13:30:25.892915!
-2022-12-01 14:11:27.668 | SUCCESS  | __main__:remove_user:207 - usuário: zAngryGhost agendado para ser banido em: 2022-12-02 14:11:27.111971!
-2022-12-01 14:31:29.154 | SUCCESS  | __main__:remove_user:207 - usuário: zAngryGhost agendado para ser banido em: 2022-12-02 14:31:28.544209!
-2022-12-01 14:32:35.070 | SUCCESS  | __main__:remove_user:202 - usuário: zAngryGhost agendado para ser banido em: 2022-12-02 14:32:34.491366!
+2022-12-02 14:47:26.618 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:47:26.620 | ERROR    | telegram.telegram_bot:remove_user:225 - Ocorreu o seguinte erro: Peer id invalid: 0
+2022-12-02 14:48:09.186 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:48:09.187 | ERROR    | telegram.telegram_bot:remove_user:225 - Ocorreu o seguinte erro: Peer id invalid: 0
+2022-12-02 14:48:33.881 | INFO     | telegram.telegram_bot:start:58 - Pyrogram parado
+2022-12-02 14:48:34.076 | ERROR    | telegram.telegram_bot:remove_user:225 - Ocorreu o seguinte erro: Telegram says: [400 USERNAME_INVALID] - The username is invalid (caused by "contacts.ResolveUsername")
+2022-12-02 14:49:26.512 | INFO     | telegram.telegram_bot:start:58 - Pyrogram parado
+2022-12-02 14:49:26.888 | SUCCESS  | telegram.telegram_bot:remove_user:215 - usuário: Hidden agendado para ser banido em: 2022-12-03 14:49:26.513941!
+2022-12-02 14:50:45.146 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:51:40.760 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:53:04.457 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:53:40.122 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:53:57.822 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:55:09.058 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:55:36.361 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:55:48.448 | INFO     | telegram.telegram_bot:start:58 - Pyrogram parado
+2022-12-02 14:57:35.568 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 14:57:57.931 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:00:23.592 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:03:34.838 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:03:35.173 | SUCCESS  | telegram.telegram_bot:remove_user:226 - Usuário: Hidden agendado para ser banido em: 2022-12-03 15:03:34.839962!
+2022-12-02 15:04:44.882 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:04:45.185 | SUCCESS  | telegram.telegram_bot:remove_user:225 - Usuário: Hidden agendado para ser banido em: 2022-12-03 15:04:44.883135!
+2022-12-02 15:14:08.037 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:14:08.194 | ERROR    | telegram.telegram_bot:remove_user:230 - Ocorreu o seguinte erro: Telegram says: [400 PEER_ID_INVALID] - The peer id being used is invalid or not known yet. Make sure you meet the peer before interacting with it 
+2022-12-02 15:14:24.497 | INFO     | telegram.telegram_bot:start:58 - Pyrogram parado
+2022-12-02 15:14:24.692 | ERROR    | telegram.telegram_bot:remove_user:230 - Ocorreu o seguinte erro: Telegram says: [400 USERNAME_NOT_OCCUPIED] - The username is not occupied by anyone (caused by "contacts.ResolveUsername")
+2022-12-02 15:18:04.048 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:18:04.050 | ERROR    | telegram.telegram_bot:remove_user:230 - Ocorreu o seguinte erro: unsupported type for timedelta days component: NoneType
+2022-12-02 15:19:48.502 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:19:48.657 | ERROR    | telegram.telegram_bot:remove_user:239 - Ocorreu o seguinte erro: Telegram says: [400 USERNAME_NOT_OCCUPIED] - The username is not occupied by anyone (caused by "contacts.ResolveUsername")
+2022-12-02 15:21:57.923 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:21:57.924 | ERROR    | telegram.telegram_bot:remove_user:238 - Ocorreu o seguinte erro: unsupported type for timedelta days component: NoneType
+2022-12-02 15:24:45.025 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:24:45.026 | ERROR    | telegram.telegram_bot:remove_user:238 - Ocorreu o seguinte erro: unsupported type for timedelta days component: NoneType
+2022-12-02 15:26:58.503 | INFO     | telegram.telegram_bot:start:54 - Pyrogram iniciado
+2022-12-02 15:26:58.900 | SUCCESS  | telegram.telegram_bot:remove_user:235 - Usuário: PASERPEN banido com sucesso!

@@ -22,7 +22,7 @@ send_email = SendEmail()
 telegram = TelegramBot()
 
 
-class TelegramApi:
+class TelegramEndpint:
 
     # GET all chats telegram
     @router.get('/all-chats', status_code=status.HTTP_200_OK)

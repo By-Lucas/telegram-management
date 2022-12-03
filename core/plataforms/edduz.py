@@ -43,7 +43,7 @@ class Eduzz:
         except:
             return None
 
-    def get_sale_list(self, start_date, end_date, page=None, contract_id=None, affiliate_id=None,
+    async def get_sale_list(self, start_date, end_date, page=None, contract_id=None, affiliate_id=None,
                       content_id=None, invoice_status=None, client_email=None,
                       client_document=None, date_type=None):
 
@@ -79,7 +79,7 @@ class Eduzz:
         except:
             return None
 
-    def status_list(self):
+    async def status_list(self):
         payload = {}
 
         try:
@@ -92,7 +92,7 @@ class Eduzz:
         except:
             return None
 
-    def get_contract_list(self, start_date, end_date, page):
+    async def get_contract_list(self, start_date, end_date, page):
         payload = {
             'page': page,
             'start_date': start_date,
@@ -109,7 +109,7 @@ class Eduzz:
         except:
             return None
 
-    def get_contract(self, contract_id: int, invoice_id: int):
+    async def get_contract(self, contract_id: int, invoice_id: int):
         payload = {
             'contractId': contract_id,
             'invoiceId': invoice_id,

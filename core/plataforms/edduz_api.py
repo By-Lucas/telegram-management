@@ -144,8 +144,8 @@ class Eduzz:
 
 if __name__ == '__main__':
     email = 'lukasmulekezika2@gmail.com'
-    api_key = os.environ['edduz_public_key']
-    publick_key = os.environ['edduz_api_key']
+    api_key = os.getenv('edduz_public_key')
+    publick_key = os.getenv('edduz_api_key')
 
     ed = Eduzz(email, api_key, publick_key)
     print(ed.get_contract(contract_id=632951, invoice_id=13599953))

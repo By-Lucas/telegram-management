@@ -142,10 +142,75 @@ class Eduzz:
             return None
 
 
-if __name__ == '__main__':
-    email = 'lukasmulekezika2@gmail.com'
-    api_key = os.getenv('edduz_public_key')
-    publick_key = os.getenv('edduz_api_key')
+    async def get_total(self, start_date=None, end_date=None):
+        '''formart of start_date and end_date: 2022-12-03'''
 
-    ed = Eduzz(email, api_key, publick_key)
-    print(ed.get_contract(contract_id=632951, invoice_id=13599953))
+        payload = {
+            'start_date': start_date,
+            'end_date': end_date,
+        }
+
+        try:
+            response = requests.request('GET',
+                                        url=f'{URL_BASE}/sale/get_total',
+                                        headers=self._headers, params=payload)
+            data = response.json()
+            return data
+
+        except:
+            return None
+    
+    async def get_balance(self):
+        '''formart of start_date and end_date: 2022-12-03'''
+
+        payload = {}
+
+        try:
+            response = requests.request('GET',
+                                        url=f'{URL_BASE}/financial/balance',
+                                        headers=self._headers, params=payload)
+            data = response.json()
+            return data
+
+        except:
+            return None
+
+
+    async def content_list(self, page:int=None, active:int=None):
+
+        payload = {
+            'page': page,
+            'active': active
+        }
+
+        try:
+            response = requests.request('GET',
+                                        url=f'{URL_BASE}/content/content_list',
+                                        headers=self._headers, params=payload)
+            data = response.json()
+            return data
+
+        except:
+            return None
+    
+    async def get_content(self, content_id:int):
+
+        payload = {}
+
+        try:
+            response = requests.request('GET',
+                                        url=f'{URL_BASE}/content/content/{content_id}',
+                                        headers=self._headers, params=payload)
+            data = response.json()
+            return data
+
+        except:
+            return None
+
+# if __name__ == '__main__':
+#     email = 'lukasmulekezika2@gmail.com'
+#     api_key = os.getenv('edduz_public_key')
+#     publick_key = os.getenv('edduz_api_key')
+
+#     ed = Eduzz(email, api_key, publick_key)
+#     print(ed.get_contract(contract_id=632951, invoice_id=13599953))

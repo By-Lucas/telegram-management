@@ -3,8 +3,19 @@ from fastapi import FastAPI
 from core.configs import settings
 from api.v1.api import api_router
 
+from dotenv import load_dotenv
+import os
 
-app = FastAPI(title='FastAPI - Segurança')
+load_dotenv(os.getcwd() + '\\.env', encoding='utf-8')
+
+title= os.getenv('title')
+description = 'Gerenciar usuários do grupo telegram telegram de acordo com status de cada usuário nas plataformas de Marketplace: Eduzz, Braip, Hotmart, Kiwify e TK Global (Plataforma própria)'
+version= os.getenv('version')
+
+app = FastAPI(title= title, 
+            description= description,
+            version= version)
+
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 

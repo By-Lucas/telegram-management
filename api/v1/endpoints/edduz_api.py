@@ -81,3 +81,50 @@ class EduzzEndpoints:
 
         except Exception as e:
             raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+    @router.get('/get_total')
+    async def get_total(start_date=None, end_date=None):
+        try:
+            edduz = auth_eduzz()
+            contract_list = await edduz.get_total(start_date=start_date, end_date=end_date)
+            
+            return contract_list
+
+        except Exception as e:
+            raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+    @router.get('/get_balance')
+    async def get_balance():
+        try:
+            edduz = auth_eduzz()
+            contract_list = await edduz.get_balance()
+            
+            return contract_list
+
+        except Exception as e:
+            raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    
+    @router.get('/content_list')
+    async def content_list(page:int=None, active:int=None):
+        try:
+            edduz = auth_eduzz()
+            contract_list = await edduz.content_list(page=page, active=active)
+            
+            return contract_list
+
+        except Exception as e:
+            raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    @router.get('/get_content/{content_id}')
+    async def get_content(content_id:int):
+        try:
+            edduz = auth_eduzz()
+            contract_list = await edduz.get_content(content_id=content_id)
+            
+            return contract_list
+
+        except Exception as e:
+            raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

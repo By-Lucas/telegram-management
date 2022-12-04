@@ -15,9 +15,8 @@ class SendEmail:
 
         self.email_enviar = os.environ['email_send']
         self.senha_enviar = os.environ['email_password']
-        
 
-    def enviar_email(self,email: str, title_email: str, body: str) -> str:
+    def enviar_email(self, email: str, title_email: str, body: str) -> str:
 
         self.email_receber = email
 
@@ -34,15 +33,15 @@ class SendEmail:
             msg['Subject'] = title_email
 
             msg.attach(MIMEText(body, 'plain'))
-            
-            #Servidor SMTP
+
+            # Servidor SMTP
             s = smtplib.SMTP("smtp.gmail.com", 587)
             s.ehlo()
             # Segurança
             s.starttls()
             s.ehlo()
             s.login(self.email_enviar, self.senha_enviar)
-            
+
             # Converte para String
             text = msg.as_string()
 

@@ -89,7 +89,8 @@ class Eduzz:
 
             return data
 
-        except:
+        except Exception as e:
+            print(e)
             return None
 
     def get_contract_list(self, start_date, end_date, page):
@@ -106,7 +107,8 @@ class Eduzz:
 
             return data
 
-        except:
+        except Exception as e:
+            print(e)
             return None
 
     def get_contract(self, contract_id: int, invoice_id: int):
@@ -138,7 +140,8 @@ class Eduzz:
 
             return data
 
-        except:
+        except Exception as e:
+            print(e)
             return None
 
 

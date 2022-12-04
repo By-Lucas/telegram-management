@@ -10,7 +10,6 @@ class Braip:
     def __init__(self, token):
         self.token = token
 
-
     def get_transactions(self, product_key=None, transaction_key=None, date_min=None,
                          date_max=None, last_update_min=None, last_update_max=None, status=None,
                          payment=None, page=None, participation=None):

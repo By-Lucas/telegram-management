@@ -10,13 +10,13 @@ class Config:
         # config = configparser.ConfigParser()
         # config.read('settings\\config.ini', encoding='utf-8')
 
-        self.bot_name = os.environ['name_bot']
-        self.api_id = os.environ['api_id']
-        self.api_hash = os.environ['api_hash']
-        self.phone = os.environ['phone']
-        self.bot_token = os.environ['bot_token']
-        self.telegram_password = os.environ['telegram_password']
-        self.telegram_support = os.environ['telegram_support']
+        self.bot_name = os.getenv('name_bot')
+        self.api_id = os.getenv('api_id')
+        self.api_hash = os.getenv('api_hash')
+        self.phone = os.getenv('phone')
+        self.bot_token = os.getenv('bot_token')
+        self.telegram_password = os.getenv('telegram_password')
+        self.telegram_support = os.getenv('telegram_support')
 
 
 class Message:

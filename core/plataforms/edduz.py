@@ -89,7 +89,8 @@ class Eduzz:
 
             return data
 
-        except:
+        except Exception as e:
+            print(e)
             return None
 
     async def get_contract_list(self, start_date, end_date, page):
@@ -106,7 +107,8 @@ class Eduzz:
 
             return data
 
-        except:
+        except Exception as e:
+            print(e)
             return None
 
     async def get_contract(self, contract_id: int, invoice_id: int):
@@ -138,7 +140,8 @@ class Eduzz:
 
             return data
 
-        except:
+        except Exception as e:
+            print(e)
             return None
 
 
@@ -206,11 +209,3 @@ class Eduzz:
 
         except:
             return None
-
-# if __name__ == '__main__':
-#     email = 'lukasmulekezika2@gmail.com'
-#     api_key = os.getenv('edduz_public_key')
-#     publick_key = os.getenv('edduz_api_key')
-
-#     ed = Eduzz(email, api_key, publick_key)
-#     print(ed.get_contract(contract_id=632951, invoice_id=13599953))

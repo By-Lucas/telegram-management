@@ -1,6 +1,4 @@
 venv
 *__pycache__
 *.pyc
-.env
-*.session
 __pycache__

@@ -15,9 +15,7 @@ from telethon.tl.types import UserStatusRecently, ChatPhoto
 
 from typing import Optional, Union
 import json
-import base64
 import os
-import asyncio
 
 router = APIRouter()
 send_email = SendEmail()
@@ -41,7 +39,6 @@ class EduzzEndpoints:
         try:
             edduz = auth_eduzz()
             status_list = await edduz.status_list()
-            print(status_list)
             
             return status_list
 

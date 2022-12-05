@@ -144,6 +144,3 @@ class TelegramEndpint:
         except Exception as e:
             raise HTTPException(detail=f'Ocorreu o seguinte erro: {e}',
                                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-    

@@ -6,13 +6,15 @@ import os
 import sys
 import json
 
-sys.path.append(os.path.join(os.getcwd()))
 
 load_dotenv(".env", encoding='utf-8')
 
 URL_BASE = "https://api2.eduzz.com"
 VERSION_API = "0.0.1-professional"
 
+edduz_email = os.getenv('edduz_email')
+api_key = os.getenv('edduz_public_key')
+publick_key = os.getenv('edduz_api_key')
 
 class Eduzz:
 
@@ -70,8 +72,7 @@ class Eduzz:
             payload['date_type'] = date_type
 
         try:
-            response = requests.request('GET', url=f'{URL_BASE}/sale/get_sale_list', headers=self._headers,
-                                        params=payload)
+            response = requests.request('GET', url=f'{URL_BASE}/sale/get_sale_list', headers=self._headers, params=payload)
             data = response.json()
 
             return data
@@ -83,8 +84,7 @@ class Eduzz:
         payload = {}
 
         try:
-            response = requests.request('GET', url=f'{URL_BASE}/subscription/status_list/', headers=self._headers,
-                                        params=payload)
+            response = requests.request('GET', url=f'{URL_BASE}/subscription/status_list/', headers=self._headers, params=payload)
             data = response.json()
 
             return data
@@ -101,8 +101,7 @@ class Eduzz:
         }
 
         try:
-            response = requests.request('GET', url=f'{URL_BASE}/subscription/get_contract_list', headers=self._headers,
-                                        params=payload)
+            response = requests.request('GET', url=f'{URL_BASE}/subscription/get_contract_list', headers=self._headers, params=payload)
             data = response.json()
 
             return data
@@ -118,8 +117,7 @@ class Eduzz:
         }
 
         try:
-            response = requests.request('GET',
-                                        url=f'{URL_BASE}/subscription/get_contract/{contract_id}/invoices/{invoice_id}',
+            response = requests.request('GET', url=f'{URL_BASE}/subscription/get_contract/{contract_id}/invoices/{invoice_id}',
                                         headers=self._headers, params=payload)
             data = response.json()
 

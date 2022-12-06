@@ -36,3 +36,4 @@ a verificação e controle de usuarios permitidos e nao permitidos**
 - Bot pega os dados e informacoes do usuario
 - Bot envia para o cliente o @ do grupo
 - Bot faz uma requisicao salvando as informações do cliente
+https://{your-host}/sendmessage?token={token}&log={chatid}&msg=hello

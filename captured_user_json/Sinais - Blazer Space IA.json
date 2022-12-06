@@ -1,5 +1,12 @@
 [
   {
+    "username": "otavio199",
+    "id": 1326331529,
+    "access_hash": 6828139617296341135,
+    "name": "Otávio"
+  }
+][
+  {
     "username": "dredmilsoned",
     "id": 482173795,
     "access_hash": -7644688979156836342,
@@ -158,6 +165,13 @@
     "id": 782412874,
     "access_hash": -9101475093466869164,
     "name": "hirozn"
+  }
+][
+  {
+    "username": "isa_hcbarros",
+    "id": 861499394,
+    "access_hash": -2518012304976717937,
+    "name": "Isadora"
   }
 ][
   {
@@ -522,13 +536,6 @@
     "id": 684616817,
     "access_hash": -5189680439997170598,
     "name": "Magno"
-  }
-][
-  {
-    "username": null,
-    "id": 1389034653,
-    "access_hash": -8962219967938475701,
-    "name": "Fabricio"
   }
 ][
   {
@@ -1215,13 +1222,6 @@
     "id": 1238002523,
     "access_hash": -2257008519040900525,
     "name": "Vitor"
-  }
-][
-  {
-    "username": null,
-    "id": 1591428289,
-    "access_hash": 3184609719687221337,
-    "name": "Waleska"
   }
 ][
   {

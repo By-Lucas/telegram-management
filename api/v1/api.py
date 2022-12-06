@@ -5,7 +5,6 @@ from api.v1.endpoints import edduz_api
 from api.v1.endpoints import braip_api
 
 
-
 api_router = APIRouter()
 
 api_router.include_router(telegram_api.router, prefix='/telegram', tags=['Telegram'])

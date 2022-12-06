@@ -171,7 +171,6 @@ class TelegramBot(object):
                     
                 
 
-
         @self.bot.on(events.CallbackQuery())
         async def call_handler(event):
             global user_dict, items_list, strategies_list

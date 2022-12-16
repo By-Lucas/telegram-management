@@ -8,9 +8,9 @@ import asyncpg
 
 class Settings(BaseSettings):
     API_V1_STR: str = '/api/v1'
-    #DB_URL: str =  'sqlite+aiosqlite:///core/database.db'
+    DB_URL: str =  'sqlite+aiosqlite:///core/database.db'
     #DB_URL: str = "postgresql+asyncpg://hkfaarrhzkykat:fac088c4f1dec32e0cb0596d5276beb61ae29c20cb10469b259fbd5b1302c908@ec2-44-199-143-43.compute-1.amazonaws.com:5432/d9gom64op639j"
-    DB_URL: str = "postgresql+asyncpg://postgres:123@localhost:5432/telegram" 
+    #DB_URL: str = "postgresql+asyncpg://postgres:123@localhost:5432/telegram" 
     DBBaseModel = declarative_base()
 
 

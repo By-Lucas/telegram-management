@@ -108,6 +108,8 @@ class TelegramBot(object):
         self.phone = os.getenv('phone')
         self.bot_token = os.getenv('bot_token')
 
+        self.url = os.getenv('url_base')
+
         self.bot = TelegramClient(f'telegram\\sessions\\{self.bot_name}', self.api_id, self.api_hash)
         self.conversation_state = {}
         self.state = State
@@ -238,8 +240,6 @@ class TelegramBot(object):
 
 
     def user_verification(self, contracti_id:int, email:str) -> None:
-        url = 'http://127.0.0.1:8000/api/v1/eduzz/get_sale_list'
-
         data = {
             'start_date': '2020-12-03',
             'end_date': '2021-12-03',
@@ -251,7 +251,7 @@ class TelegramBot(object):
                 'Content-Type': 'application/json'
         }
 
-        response = requests.request('GET', url=url, params=data, headers=headers)
+        response = requests.request('GET', url=f'{self.url}/eduzz/get_sale_list', params=data, headers=headers)
 
         if response.json()['data'] != []:
             return response.json()

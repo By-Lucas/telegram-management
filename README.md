@@ -29,10 +29,14 @@ a verificação e controle de usuarios permitidos e nao permitidos**
 - Kiwify
 - Shopify
 
+## Usuarios e Permissões
+ - Cadastrar o usuário com os dados necessários
+ - O Cliente fornecedor deve fazer o login utilizando token de authorização único
+
 ## BOT
 **Criar o bot para pegar as informações**
 - clicar no link do bot : https://t.me/RobotZeus_bot
-- cliente digitar o id fornecido na plataforma Nutror ou enviado apra o email
+- cliente digitar o id fornecido na plataforma Nutror ou enviado para o email
 - Bot pega os dados e informacoes do usuario
 - Bot envia para o cliente o @ do grupo
 - Bot faz uma requisicao salvando as informações do cliente

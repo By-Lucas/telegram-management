@@ -2,10 +2,12 @@ from enum import Enum, auto
 from telethon.sync import TelegramClient, events, Button
 from helpers import Buttons
 
+import requests
+
 from dotenv import load_dotenv
 import os
 
-load_dotenv(os.getcwd() + '\\.env', encoding='utf-8')
+load_dotenv('.env', encoding='utf-8')
 
 
 def get_user(sender):
@@ -201,12 +203,30 @@ class TelegramBot(object):
                 self.conversation_state[sender_id] = self.state.WAIT_EMAIL
             
             elif selected.upper() == "CONFIRMAR":
-                await event.respond(f"__**Aguarde um momento, estamos validando as informações**__")
+                await event.respond(f"__**Aguarde um momento, estamos validando as informações...**__")
                 await self.bot.delete_messages(sender_id, [msg_id])
                 self.conversation_state[sender_id] = self.state.WAIT_ENABLE
-            
+
+                validation = self.user_verification(int(user_dict["user"]["product_id"]), user_dict["user"]["email"])
+
+                if validation is not None:
+
+                    await self.bot.delete_messages(sender_id, [msg_id])
+                    await event.respond(f"__**Informações validada com sucesso ✅**__")
+                    
+                    await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
+                    await event.respond(f"__**Telefone: {validation['data'][0]['client_cel']}**__")
+                    await event.respond(f"__**Status: {validation['data'][0]['sale_status_name']}**__")
+                    await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
+                    await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
+                    await event.respond(f"__**Data: {validation['data'][0]['date_update']}**__")
+
+                    #await event.respond(client_name, student_cel, sale_status_name, sale_total, content_title, date_update)
+                    print(user_dict["user"]["product_id"], user_dict["user"]["email"])
+                    
+
             elif selected.upper() == "VOLTAR":
-                await event.respond(f"__**Aguarde um momento, estamos validando as informações**__")
+                #await event.respond(f"__**Aguarde um momento, estamos validando as informações**__")
                 await self.bot.delete_messages(sender_id, [msg_id])
                 self.conversation_state[sender_id] = self.state.WAIT_START
             
@@ -215,6 +235,26 @@ class TelegramBot(object):
         self.bot.start(bot_token=self.bot_token)
         print("Starting telegram bot!!!")
         self.bot.run_until_disconnected()
+
+
+    def user_verification(self, contracti_id:int, email:str) -> None:
+        url = 'http://127.0.0.1:8000/api/v1/eduzz/get_sale_list'
+
+        data = {
+            'start_date': '2020-12-03',
+            'end_date': '2021-12-03',
+            'contract_id': contracti_id ,
+            'client_email': email
+        }
+
+        headers = {
+                'Content-Type': 'application/json'
+        }
+
+        response = requests.request('GET', url=url, params=data, headers=headers)
+
+        if response.json()['data'] != []:
+            return response.json()
 
 
 if __name__== '__main__':

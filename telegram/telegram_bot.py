@@ -16,7 +16,7 @@ from loguru import logger
 import sys
 import json
 import os
-import asyncio
+import requests
 from typing import Union
 
 sys.path.append(os.path.join(os.getcwd()))

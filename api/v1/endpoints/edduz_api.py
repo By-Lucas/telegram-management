@@ -64,6 +64,19 @@ class EduzzEndpoints:
         except Exception as e:
             raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
+    # GET sale
+    @router.get('/get_salet/{id}', status_code=status.HTTP_200_OK)
+    async def get_sale(id=int):
+        '''formart of start_date and end_date: 2022-12-03'''
+        
+        try:
+            edduz = auth_eduzz()
+            sale_list = await edduz.get_sale(id=id)
+            
+            return sale_list
+
+        except Exception as e:
+            raise HTTPException(detail=f'Ocorreu o erro: {e}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     # GET contract list
     @router.get('/get_contract_list', status_code=status.HTTP_200_OK)

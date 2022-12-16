@@ -79,10 +79,21 @@ class Eduzz:
 
         except:
             return None
+    
+    async def get_sale(self, id:int):
+        payload = {}
+        try:
+            response = requests.request('GET',
+                                        url=f'{URL_BASE}/sale/get_sale/{id}',
+                                        headers=self._headers, params=payload)
+            data = response.json()
+            return data
+
+        except:
+            return None
 
     async def status_list(self):
         payload = {}
-
         try:
             response = requests.request('GET', url=f'{URL_BASE}/subscription/status_list/', headers=self._headers, params=payload)
             data = response.json()

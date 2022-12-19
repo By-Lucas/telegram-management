@@ -29,7 +29,7 @@ class ButtonsManager(object):
     def get_account_buttons(self, data):
         return [
             [self.button.inline(f"E-mail = {data['user']['email']}", "email")],
-            [self.button.inline(f"ID Produto = {data['user']['product_id']}", "product_id")],
+            [self.button.inline(f"ID do contrato = {data['user']['product_id']}", "product_id")],
             [self.button.inline(f" Validar ✅", "confirmar"), self.button.inline(f"Voltar ➡", "voltar")]
         ]
 

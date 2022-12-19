@@ -1,4 +1,5 @@
 import requests
+import json
 
 # 641639
 
@@ -42,5 +43,36 @@ def get_user(email:str):
         if response.status_code == 200:
             return response.json()
 
-result = get_user(email='lucas@gmail.com')
-print(result)
+# result = get_user(email='lucas@gmail.com')
+# print(result)
+
+
+def new_user():
+   
+    try:
+        payload = {
+            "full_name": "Lucas Silva",
+            "birth_date": "string",
+            "phone": "string",
+            "cpf": "string",
+            "email": 'user@example.com',
+            "is_admin": False,
+            "password": "string"
+            }
+
+        headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+
+
+        response = requests.request('POST', url=f'{url}/user/signup',data=json.dumps(payload), headers=headers)
+
+        return response
+    except Exception as e:
+        print(e)
+
+
+
+response = new_user()
+print(response.content)

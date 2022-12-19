@@ -228,7 +228,6 @@ class TelegramBot(object):
                         await event.respond(f"__**Vencimento: {validation['data'][0]['due_date']}**__")
                         await event.respond(f"__**Data: {validation['data'][0]['date_update']}**__")
 
-                        #await event.respond(client_name, student_cel, sale_status_name, sale_total, content_title, date_update)
                         print(user_dict["user"]["product_id"], user_dict["user"]["email"])
                     
                     else:

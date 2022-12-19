@@ -98,8 +98,8 @@ class User:
 
         
     # UPDATE usuário
-    @router.put('/{usuario_id}', response_model=UserSchemaBase, status_code=status.HTTP_202_ACCEPTED)
-    async def update_usuario(usuario_id: int, usuario: UserSchemaUpdate, db: AsyncSession = Depends(get_session)):
+    @router.put('/{user_id}', response_model=UserSchemaBase, status_code=status.HTTP_202_ACCEPTED)
+    async def update_user(usuario_id: int, usuario: UserSchemaUpdate, db: AsyncSession = Depends(get_session)):
         async with db as session:
             query = select(UserModel).filter(UserModel.id == usuario_id)
             result = await session.execute(query)
@@ -129,8 +129,8 @@ class User:
 
 
     # DELETE usuário
-    @router.delete('/{usuario_id}', status_code=status.HTTP_204_NO_CONTENT)
-    async def delete_usuario(usuario_id: int, usuario: UserSchemaUpdate, db: AsyncSession = Depends(get_session)):
+    @router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
+    async def delete_user(usuario_id: int, usuario: UserSchemaUpdate, db: AsyncSession = Depends(get_session)):
         async with db as session:
             query = select(UserModel).filter(UserModel.id == usuario_id)
             result = await session.execute(query)

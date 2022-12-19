@@ -205,7 +205,7 @@ class TelegramBot(object):
                 self.conversation_state[sender_id] = self.state.WAIT_EMAIL
             
             elif selected.upper() == "CONFIRMAR":
-                await event.respond(f"__**Aguarde um momento, estamos validando as informações...**__")
+                await event.respond(f"__**Aguarde um momento, estamos verificando as informações...**__")
                 await self.bot.delete_messages(sender_id, [msg_id])
                 self.conversation_state[sender_id] = self.state.WAIT_ENABLE
 
@@ -213,18 +213,36 @@ class TelegramBot(object):
 
                 if validation is not None:
 
-                    await self.bot.delete_messages(sender_id, [msg_id])
-                    await event.respond(f"__**Informações validada com sucesso ✅**__")
-                    
-                    await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
-                    await event.respond(f"__**Telefone: {validation['data'][0]['client_cel']}**__")
-                    await event.respond(f"__**Status: {validation['data'][0]['sale_status_name']}**__")
-                    await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
-                    await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
-                    await event.respond(f"__**Data: {validation['data'][0]['date_update']}**__")
+                    if validation['data'][0]['sale_status'] == 1:
 
-                    #await event.respond(client_name, student_cel, sale_status_name, sale_total, content_title, date_update)
-                    print(user_dict["user"]["product_id"], user_dict["user"]["email"])
+                        await self.bot.delete_messages(sender_id, [msg_id])
+                        await event.respond(f"__**Informações verificada com, você está em dia ✅**__")
+                        
+                        print(validation['data'][0])
+                        await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
+                        await event.respond(f"__**Telefone: {validation['data'][0]['client_cel']}**__")
+                        await event.respond(f"__**Status número: {validation['data'][0]['sale_status']}**__")
+                        await event.respond(f"__**Status: {validation['data'][0]['sale_status_name']}**__")
+                        await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
+                        await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
+                        await event.respond(f"__**Vencimento: {validation['data'][0]['due_date']}**__")
+                        await event.respond(f"__**Data: {validation['data'][0]['date_update']}**__")
+
+                        #await event.respond(client_name, student_cel, sale_status_name, sale_total, content_title, date_update)
+                        print(user_dict["user"]["product_id"], user_dict["user"]["email"])
+                    
+                    else:
+                        await event.respond(f"__**Informações verificada com, você está não em dia ⛔️**__")
+
+                        await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
+                        await event.respond(f"__**Status: {validation['data'][0]['sale_status_name']}**__")
+                        await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
+                        await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
+                        await event.respond(f"__**Vencimento: {validation['data'][0]['due_date']}**__")
+                
+                else:
+                    await event.respond(f"__**Houve um erro interno, entre em contato com o administrador**__")
+
                     
 
             elif selected.upper() == "VOLTAR":
@@ -237,6 +255,17 @@ class TelegramBot(object):
         self.bot.start(bot_token=self.bot_token)
         print("Starting telegram bot!!!")
         self.bot.run_until_disconnected()
+
+
+    def get_user(self, email:str):
+        headers = {
+                'Content-Type': 'application/json'
+        }
+
+        response = requests.request('GET', url=f'{self.url}/user/{email}', headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
 
 
     def user_verification(self, contracti_id:int, email:str) -> None:

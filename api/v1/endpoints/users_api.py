@@ -73,7 +73,7 @@ class User:
 
 
     # GET User
-    @router.get('/', response_model=List[UserSchemaBase])
+    @router.get('/', response_model=List[UserSchemaBase], status_code=status.HTTP_200_OK)
     async def get_user(db: AsyncSession = Depends(get_session)):
         async with db as session:
             query = select(UserModel)
@@ -83,7 +83,7 @@ class User:
             return usuarios
 
 
-    # GET usuário
+    # GET User
     @router.get('/{user_email}', response_model=UserSchemaTelegram, status_code=status.HTTP_200_OK)
     async def get_user(user_email: str, db: AsyncSession = Depends(get_session)):
         async with db as session:

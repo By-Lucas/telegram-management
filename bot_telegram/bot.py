@@ -233,13 +233,12 @@ class TelegramBot(object):
                             add_info = self.add_info_telegram(data=params)
 
                             await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
-                            await event.respond(f"__**Telefone: {validation['data'][0]['client_cel']}**__")
-                            await event.respond(f"__**Status número: {validation['data'][0]['sale_status']}**__")
                             await event.respond(f"__**Status: {validation['data'][0]['sale_status_name']}**__")
                             await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
                             await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
                             await event.respond(f"__**Vencimento: {validation['data'][0]['due_date']}**__")
-                            await event.respond(f"__**Data: {validation['data'][0]['date_update']}**__")
+
+                            self.conversation_state[sender_id] = self.state.WAIT_START
                     
                     else:
 
@@ -249,13 +248,29 @@ class TelegramBot(object):
                         await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
                         await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
                         await event.respond(f"__**Vencimento: {validation['data'][0]['due_date']}**__")
+
+                        self.conversation_state[sender_id] = self.state.WAIT_START
                 
                 else:
                     await event.respond(f"__**Houve um erro interno, entre em contato com o administrador**__")
+                    self.conversation_state[sender_id] = self.state.WAIT_START
                     
             elif selected.upper() == "VOLTAR":
                 await self.bot.delete_messages(sender_id, [msg_id])
                 self.conversation_state[sender_id] = self.state.WAIT_START
+
+
+    def search_info_group(self, id):
+        try:
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.request('POST', url=f'{self.url}/user/info-telegram',data=json.dumps(data), headers=headers)
+            return response
+
+        except Exception as e:
+            print(e)
                 
     
     def add_info_telegram(self, data):

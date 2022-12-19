@@ -34,7 +34,12 @@ class CostumerEndpoints:
 
     # GET status list
     @router.get('/', status_code=status.HTTP_200_OK)
-    async def status_list():
-        data = {'client': 'Lucas Silva', 'groups': ['tkbinary', 'tkforex', 'tkindicadores']}
+    async def check_channel():
+        data = {
+            'client': 'Lucas Silva',
+            'id_content': 641639,
+            'group': 'TK Binary Mensal',
+            'channel': 'https://t.me/blazer_space_ia'
+            }
         return data
         

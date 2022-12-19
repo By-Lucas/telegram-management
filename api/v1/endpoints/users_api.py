@@ -41,19 +41,19 @@ class User:
 
     # GET usuario Logado
     @router.get('/logged', response_model=UserSchemaBase)
-    def get_logado(logged_user: UserModel = Depends(get_current_user)):
+    def get_loged(logged_user: UserModel = Depends(get_current_user)):
         return logged_user
 
 
     # POST / Singup
     @router.post('/signup', status_code=status.HTTP_201_CREATED, response_model=UserSchemaBase)
-    async def post_usuario(user: UserSchemaCreate, db: AsyncSession = Depends(get_session)):
+    async def post_user(user: UserSchemaCreate, db: AsyncSession = Depends(get_session)):
         
-        novo_usuario: UserModel = UserModel(full_name=user.full_name, birth_date=user.birth_date, 
+        novo_usuario: UserModel = UserModel(id=user.id, full_name=user.full_name, birth_date=user.birth_date, 
                                             phone=user.phone,
                                             cpf=user.cpf, email=user.email, 
                                             password=gerar_hash_senha(user.password), 
-                                            is_admin=user.is_admin
+                                            is_admin=user.is_admin,
                                         )
         async with db as session:
             try:
@@ -72,9 +72,9 @@ class User:
                                     detail='Já existe um usuário com este email cadastrado.')
 
 
-    # GET usuários
+    # GET User
     @router.get('/', response_model=List[UserSchemaBase])
-    async def get_usuarios(db: AsyncSession = Depends(get_session)):
+    async def get_user(db: AsyncSession = Depends(get_session)):
         async with db as session:
             query = select(UserModel)
             result = await session.execute(query)
@@ -147,13 +147,16 @@ class User:
     
     # POST / info-telegram
     @router.post('/info-telegram', status_code=status.HTTP_201_CREATED, response_model=TelegramSchemaBase)
-    async def post_info_telegram(telegram: TelegramSchemaBase, db: AsyncSession = Depends(get_session)):
+    async def post_info_telegram(telegram: TelegramSchemaBase, db:AsyncSession = Depends(get_session)):
+        print(dir(telegram.id))
+        #print(user_id)
+
         
-        add_info:TelegramUserModel = TelegramUserModel(
+        add_info:TelegramUserModel= TelegramUserModel(
                                                     username=telegram.username, 
                                                     telegram_id=telegram.telegram_id, 
                                                     url_fonte=telegram.url_fonte,
-                                                    user_id = 2
+                                                    user_id = telegram.id
                                                 )
         async with db as session:
             try:

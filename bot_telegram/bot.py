@@ -207,24 +207,31 @@ class TelegramBot(object):
                         await self.bot.delete_messages(sender_id, [msg_id])
                         await event.respond(f"__**Informações verificada com, você está em dia ✅**__")
                         
-                        print(validation['data'][0])
+                        #print(validation['data'][0])
 
                         data = {
+                            "id": sender.id,
                             "full_name": validation['data'][0]['client_name'],
                             "birth_date": validation['data'][0]['due_date'],
                             "phone": validation['data'][0]['client_cel'],
-                            "cpf": validation['data'][0]['client_document'] ,
+                            "cpf": sender.id, #validation['data'][0]['client_document'] ,
                             "email": validation['data'][0]['client_email'],
                             "is_admin": False,
                             "password": sender.id
                         }
 
-                        #data['username_telegram'] = sender.username
-                        #data['id_user_telegram'] = sender.id
-                
                         add_user = self.new_user(data=data)
 
                         if add_user.status_code == 201:
+                            params = {
+                                    "username": sender.username,
+                                    "telegram_id": sender.id,
+                                    "url_fonte": f"https://t.me/{sender.username}",
+                                    "id": sender.id
+                                }
+
+                            add_info = self.add_info_telegram(data=params)
+
                             await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
                             await event.respond(f"__**Telefone: {validation['data'][0]['client_cel']}**__")
                             await event.respond(f"__**Status número: {validation['data'][0]['sale_status']}**__")
@@ -233,12 +240,10 @@ class TelegramBot(object):
                             await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
                             await event.respond(f"__**Vencimento: {validation['data'][0]['due_date']}**__")
                             await event.respond(f"__**Data: {validation['data'][0]['date_update']}**__")
-
-                            print(user_dict["user"]["product_id"], user_dict["user"]["email"])
                     
                     else:
-                        await event.respond(f"__**Informações verificada com, você está não em dia ⛔️**__")
 
+                        await event.respond(f"__**Informações verificada com, você está não em dia ⛔️**__")
                         await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
                         await event.respond(f"__**Status: {validation['data'][0]['sale_status_name']}**__")
                         await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
@@ -247,21 +252,37 @@ class TelegramBot(object):
                 
                 else:
                     await event.respond(f"__**Houve um erro interno, entre em contato com o administrador**__")
-
                     
             elif selected.upper() == "VOLTAR":
-                #await event.respond(f"__**Aguarde um momento, estamos validando as informações**__")
                 await self.bot.delete_messages(sender_id, [msg_id])
                 self.conversation_state[sender_id] = self.state.WAIT_START
-            
+                
+    
+    def add_info_telegram(self, data):
+        try:
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.request('POST', url=f'{self.url}/user/info-telegram',data=json.dumps(data), headers=headers)
+            return response
+
+        except Exception as e:
+            print(e)
+
     
     def new_user(self, data):
-        headers = {
-            'Content-Type': 'application/json'
-        }
+        try:
+            headers = {
+                'Content-Type': 'application/json'
+            }
+       
+            response = requests.request('POST', url=f'{self.url}/user/signup', data=json.dumps(data), headers=headers)
+            return response
 
-        response = requests.request('POST', url=f'{self.url}/user/signup', data=json.dumps(data), headers=headers)
-        return response
+        except Exception as e:
+            print(e)
+
 
 
     def get_user(self, email:str):

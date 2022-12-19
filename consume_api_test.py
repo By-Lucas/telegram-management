@@ -51,6 +51,7 @@ def new_user():
    
     try:
         payload = {
+            'id': 20,
             "full_name": "Lucas Silva",
             "birth_date": "string",
             "phone": "string",
@@ -60,18 +61,29 @@ def new_user():
             "password": "string"
             }
 
+        data = {
+        "username": "@lucasSilva",
+        "telegram_id": int(1561000),
+        "url_fonte": "string.com.br",
+        "id": 20
+        }
+
+        params= {
+            "user_id": 20
+         }
+
         headers = {
-            'accept': 'application/json',
             'Content-Type': 'application/json'
         }
 
+        
+        #response = requests.request('POST', url=f'{url}/user/signup',data=json.dumps(payload), headers=headers)
+        response2 = requests.request('POST', url=f'{url}/user/info-telegram',data=json.dumps(data), headers=headers)
 
-        response = requests.request('POST', url=f'{url}/user/signup',data=json.dumps(payload), headers=headers)
 
-        return response
+        return response2
     except Exception as e:
         print(e)
-
 
 
 response = new_user()

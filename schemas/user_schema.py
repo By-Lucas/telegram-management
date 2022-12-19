@@ -21,6 +21,7 @@ class UserSchemaBase(BaseModel):
     cpf: str
     email: EmailStr
     is_admin: bool = False
+    
 
     class Config:
         orm_mode = True

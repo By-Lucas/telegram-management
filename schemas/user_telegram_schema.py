@@ -4,6 +4,7 @@ from typing import List
 from pydantic import BaseModel, EmailStr
 
 
+
 class TelegramSchemaBase(BaseModel):
     id: Optional[int] = None
     username: str
@@ -14,9 +15,10 @@ class TelegramSchemaBase(BaseModel):
         orm_mode = True
 
 
-class TelegramGroupSchema(TelegramSchemaBase):
+class TelegramGroupSchema(BaseModel):
     id: Optional[int] = None
     group_title: str
+    user_id = int
     group_username: str
     group_id: int
     group_hash: str

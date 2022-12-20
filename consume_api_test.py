@@ -86,5 +86,22 @@ def new_user():
         print(e)
 
 
-response = new_user()
-print(response.content)
+
+def search_data(id:int):
+    url = 'http://127.0.0.1:8000/api/v1/costumer/'
+
+    headers = {
+            'Content-Type': 'application/json'
+        }
+
+    response = requests.request('GET', url=url, headers=headers).json()
+
+    for product_id in response['detail_product']:
+
+        if id == product_id['id_product']:
+            
+            return product_id
+
+
+response = search_data(641639)
+print(response['title_product'])

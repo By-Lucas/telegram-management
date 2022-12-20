@@ -232,13 +232,18 @@ class TelegramBot(object):
 
                             add_info = self.add_info_telegram(data=params)
 
-                            await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
-                            await event.respond(f"__**Status: {validation['data'][0]['sale_status_name']}**__")
-                            await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
-                            await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
-                            await event.respond(f"__**Vencimento: {validation['data'][0]['due_date']}**__")
+                            if add_info.status_code == 201:
+                                group = self.search_info_group(validation['data'][0]['content_id'])
+                                
+                                await event.respond(f"__**Nome completo: {validation['data'][0]['client_name']}**__")
+                                await event.respond(f"__**Status: {validation['data'][0]['sale_status_name']}**__")
+                                await event.respond(f"__**Valor: {validation['data'][0]['sale_total']}**__")
+                                await event.respond(f"__**Produto: {validation['data'][0]['content_title']}**__")
+                                await event.respond(f"__**Vencimento: {validation['data'][0]['due_date']}**__")
+                                await event.respond(f"__**Nome do grupo: {group['title_product']}**__")
+                                await event.respond(f"__**Link do grupo: {group['channel_telegram']}**__")
 
-                            self.conversation_state[sender_id] = self.state.WAIT_START
+                                self.conversation_state[sender_id] = self.state.WAIT_START
                     
                     else:
 
@@ -260,14 +265,17 @@ class TelegramBot(object):
                 self.conversation_state[sender_id] = self.state.WAIT_START
 
 
-    def search_info_group(self, id):
+    def search_info_group(self, id:int):
         try:
             headers = {
-                'Content-Type': 'application/json'
-            }
+                    'Content-Type': 'application/json'
+                }
 
-            response = requests.request('POST', url=f'{self.url}/user/info-telegram',data=json.dumps(data), headers=headers)
-            return response
+            response = requests.request('GET', f'{self.url}/costumer/', headers=headers).json()
+
+            for product_id in response['detail_product']:
+                if id == product_id['id_product']:
+                    return product_id
 
         except Exception as e:
             print(e)

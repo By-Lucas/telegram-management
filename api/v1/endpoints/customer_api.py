@@ -37,9 +37,55 @@ class CostumerEndpoints:
     async def check_channel():
         data = {
             'client': 'Lucas Silva',
-            'id_content': 641639,
-            'group': 'TK Binary Mensal',
-            'channel': 'https://t.me/blazer_space_ia'
+            'status': 'ativo',
+            'email': 'https://t.me/blazer_space_ia',
+            'phone': 'https://t.me/tk_milionario',
+            'site': 'https://t.me/tk_milionario',
+            'detail_product': [
+                {
+                    'id_product': 641639,
+                    'title_product': 'TK Binary Mensal',
+                    'channel_telegram': 'https://t.me/blazer_space_ia',
+                    'value_product': 100.00,
+                    'quantity_member': 100,
+                },
+                {
+                    'id_product': 646927,
+                    'title_product': 'TK Milionario Vitalicio',
+                    'channel_telegram': 'https://t.me/blazer_space_ia',
+                    'value_product': 600.00,
+                    'quantity_member': 100,
+                }
+            ]
+        }
+        return data
+
+    
+    # GET status list
+    @router.post('/', status_code=status.HTTP_200_OK)
+    async def post_costume():
+        data = {
+            'client': 'Lucas Silva',
+            'status': 'ativo',
+            'email': 'https://t.me/blazer_space_ia',
+            'phone': 'https://t.me/tk_milionario',
+            'site': 'https://t.me/tk_milionario',
+            'detail_product': [{
+                    'id_product': 641639,
+                    'title_product': 'TK Binary Mensal',
+                    'channel_telegram': 'https://t.me/blazer_space_ia',
+                    'value_product': 100.00,
+                    'quantity_member': 100,
+                },
+                {
+                    'id_product': 646927,
+                    'title_product': 'TK Milionario Vitalicio',
+                    'channel_telegram': 'https://t.me/blazer_space_ia',
+                    'value_product': 600.00,
+                    'quantity_member': 100,
+                }
+                ]
             }
         return data
-        
+
+    
